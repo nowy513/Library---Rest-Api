@@ -18,12 +18,4 @@ public class CopiesOfBookService {
     public List<CopiesOfBooks> getAllCopies(){
         return repository.findAll();
     }
-
-    public CopiesOfBooks saveCopy(final CopiesOfBooks copiesOfBooks){
-        return repository.save(copiesOfBooks);
-    }
-
-    public void deleteCopy(Long id){
-        repository.deleteById(id);
-    }
 }

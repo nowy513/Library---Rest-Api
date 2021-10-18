@@ -1,5 +1,6 @@
 package com.book.library.controller;
 
+import com.book.library.domain.CopiesOfBooks;
 import com.book.library.domain.CopiesOfBooksDto;
 import com.book.library.mapper.CopiesOfBookMapper;
 import com.book.library.repository.CopiesOfBooksRepository;
