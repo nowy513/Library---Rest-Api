@@ -24,11 +24,6 @@ public class UserController {
 
     private final UserMapper userMapper;
 
-    private BookMapper bookMapper;
-
-    private RentalMapper rentalMapper;
-
-
 
     @GetMapping("/allUsers")
     public List<UserDto> getAllUser(){

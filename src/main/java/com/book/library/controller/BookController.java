@@ -47,7 +47,7 @@ public class BookController {
         return bookMapper.mapToBookDto(bookService.getBookById(bookId).orElseThrow(Exception::new));
     }
 
-        @GetMapping("/book/{userId}")
+    @GetMapping("/book/{userId}")
     public List<BookDto> findUsersBooks(@PathVariable Long userId) {
         return bookMapper.mapToBookStreamDto(bookService.getAllBooksByUserId(userId));
     }
