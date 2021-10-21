@@ -55,7 +55,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getUser(){
+    public void testGetUser(){
 
         //        Given
         Book book = new Book();
@@ -77,7 +77,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void saveUser(){
+    public void testSaveUser(){
 
         //        Given
         Book book = new Book();
@@ -99,7 +99,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void deleteUser(){
+    public void testDeleteUser(){
 
         //        Given
         Book book = new Book();

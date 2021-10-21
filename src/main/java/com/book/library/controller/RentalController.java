@@ -9,11 +9,9 @@ import com.book.library.mapper.UserMapper;
 import com.book.library.service.RentalService;
 import com.book.library.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @RestController
 @CrossOrigin("*")
@@ -25,12 +23,8 @@ public class RentalController {
 
     private final RentalMapper rentalMapper;
 
-    private final UserMapper userMapper;
 
-    private final UserService userService;
-
-
-    @GetMapping("/allRental")
+    @GetMapping("/allRentals")
     public List<RentalDto> getAllRentals(){
         return rentalMapper.mapToRentalList(rentalService.getAllRentals());
     }
@@ -40,13 +34,12 @@ public class RentalController {
         return rentalMapper.mapToRentalDto(rentalService.getRent(rentalId).orElseThrow(Exception::new));
     }
 
-    @GetMapping ("/{rentalId}")
-    public Stream<UserDto> findRentalByUserId(@PathVariable Long rentalId){
-        return userMapper.mapToUserList(userService.getAllUsers()).stream()
-                .filter(userDto -> userDto.getRentalId().equals(rentalId));
+    @GetMapping("/rental/{userId}")
+    public List<RentalDto> getAllRentalUser(@PathVariable Long userId){
+        return rentalMapper.mapToRentalStream(rentalService.getUserByRentalId(userId));
     }
 
-    @PostMapping("/createRental")
+    @PostMapping("/rental")
     public Rental createRental(@RequestBody RentalDto rentalDto){
         return rentalService.saveRental(rentalMapper.mapToRental(rentalDto));
     }

@@ -8,6 +8,7 @@ import com.book.library.service.BookService;
 import com.book.library.service.RentalService;
 import com.book.library.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,30 +20,21 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final  UserService userService;
+    private final UserService userService;
 
     private final UserMapper userMapper;
 
-    private final BookService bookService;
+    private BookMapper bookMapper;
 
-    private final BookMapper bookMapper;
-
-    private final RentalMapper rentalMapper;
-
-    private final RentalService rentalService;
+    private RentalMapper rentalMapper;
 
 
-    @GetMapping("/allUser")
+
+    @GetMapping("/allUsers")
     public List<UserDto> getAllUser(){
         return userMapper.mapToUserList(userService.getAllUsers());
     }
 
-    @GetMapping("/{userId}")
-    public Stream<BookDto> findUsersBooks(@PathVariable Long userId) {
-        return bookMapper.mapToBookListDto(bookService.getAllBooks()).stream()
-                .filter(user -> user.getId().equals(userId));
-
-    }
 
     @GetMapping("/{userId}")
     public UserDto findUserById(@PathVariable Long userId) throws Exception{
@@ -50,30 +42,15 @@ public class UserController {
     }
 
     @GetMapping("/{userName}/{userSurname}")
-    public Stream<UserDto> findUserByNameSurname(@PathVariable String userName,
+    public List<UserDto> findUserByNameSurname(@PathVariable String userName,
                                          @PathVariable String userSurname){
-        return userMapper.mapToUserList(userService.getAllUsers()).stream()
-                .filter(userDto -> userDto.getName().equals(userName))
-                .filter(userDto -> userDto.getSurname().equals(userSurname));
+        return userMapper.mapToUserStream(userService.getUserByNameAndSurname(userName, userSurname));
     }
 
-    @GetMapping("/{userId}")
-    public Stream<RentalDto> getAllRentalUser(@PathVariable Long userId){
-        return rentalMapper.mapToRentalDtoList(rentalService.getAllRentals()).stream()
-                .filter(rentalDto -> rentalDto.getUserId().equals(userId));
-    }
-
-    @PostMapping("/createUser")
+    @PostMapping("/user")
     public User createUser(@RequestBody UserDto userDto){
         return userService.saveUser(userMapper.mapToUser(userDto));
     }
-
-    @PutMapping("/updateUser")
-    public UserDto updateUser(@RequestBody UserDto userDto){
-        return userMapper.mapToUserDto(userService.saveUser(userMapper.mapToUser(userDto)));
-    }
-
-
 
     @DeleteMapping("/{userId}")
     public void deleteRental(@PathVariable Long userId){

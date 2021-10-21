@@ -1,15 +1,16 @@
 package com.book.library.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity(name = "BOOK")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book {
@@ -38,4 +39,5 @@ public class Book {
     @OneToOne
     @JoinColumn(name = "BOOK_ID")
     private User user;
+
 }

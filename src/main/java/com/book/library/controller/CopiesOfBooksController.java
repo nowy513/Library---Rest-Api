@@ -1,12 +1,9 @@
 package com.book.library.controller;
 
-import com.book.library.domain.CopiesOfBooks;
 import com.book.library.domain.CopiesOfBooksDto;
 import com.book.library.mapper.CopiesOfBookMapper;
-import com.book.library.repository.CopiesOfBooksRepository;
 import com.book.library.service.CopiesOfBookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,15 +20,13 @@ public class CopiesOfBooksController {
     private final CopiesOfBookMapper mapper;
 
     @GetMapping("/availableCopy")
-    public Stream<CopiesOfBooksDto> getAllAvailableCopys(){
-        return mapper.mapToCopieList(service.getAllCopies()).stream()
-                .filter(CopiesOfBooksDto::isStatus);
+    public List<CopiesOfBooksDto> getAllAvailableCopys(){
+        return mapper.mapToCopieStream(service.getAvailableCopy());
     }
 
     @GetMapping("/copiesNotAvailable")
-    public Stream<CopiesOfBooksDto> getAllCopiesNotAvailable(){
-        return mapper.mapToCopieList(service.getAllCopies()).stream()
-                .filter(copy -> !copy.isStatus());
+    public List<CopiesOfBooksDto> getAllCopiesNotAvailable(){
+        return mapper.mapToCopieStream(service.getNotAvailableCopy());
     }
 
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class CopiesOfBookMapper {
@@ -37,6 +38,12 @@ public class CopiesOfBookMapper {
 
     public List<CopiesOfBooksDto> mapToCopieList(final List<CopiesOfBooks> copiesDto){
         return copiesDto.stream()
+                .map(this::mapToCopie)
+                .collect(Collectors.toList());
+    }
+
+    public List<CopiesOfBooksDto> mapToCopieStream(Stream<CopiesOfBooks> availableCopy) {
+        return availableCopy.sorted()
                 .map(this::mapToCopie)
                 .collect(Collectors.toList());
     }

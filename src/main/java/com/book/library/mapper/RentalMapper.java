@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,8 @@ public class RentalMapper {
                 rentalDto.getId(),
                 rentalDto.getDateOfLoan(),
                 rentalDto.getDateOfReturn(),
+//                copiesOfBooksRepository.getById(rentalDto.getCopiesOfBooksId()),
+//                userRepository.getById(rentalDto.getUserId())
                 copiesOfBooksRepository.getOne(rentalDto.getCopiesOfBooksId()),
                 userRepository.getOne(rentalDto.getUserId())
         );
@@ -34,7 +37,7 @@ public class RentalMapper {
                 rental.getId(),
                 rental.getDateOfLoan(),
                 rental.getDateOfReturn(),
-                rental.getCopiesOfBooks(),
+                rental.getCopiesOfBooks().getId(),
                 rental.getUser().getId()
 
         );
@@ -46,9 +49,10 @@ public class RentalMapper {
                 .collect(Collectors.toList());
     }
 
-    public List<RentalDto> mapToRentalDtoList(final List<Rental> rentals){
-        return rentals.stream()
+    public List<RentalDto> mapToRentalStream(final Stream<Rental> rentals){
+        return rentals.sorted()
                 .map(this::mapToRentalDto)
                 .collect(Collectors.toList());
     }
+
 }

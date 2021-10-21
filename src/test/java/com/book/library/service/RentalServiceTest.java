@@ -1,9 +1,8 @@
 package com.book.library.service;
 
-import com.book.library.domain.CopiesOfBooks;
-import com.book.library.domain.Rental;
-import com.book.library.domain.User;
+import com.book.library.domain.*;
 import com.book.library.repository.RentalRepository;
+import com.book.library.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -28,17 +28,18 @@ public class RentalServiceTest {
     @Mock
     RentalRepository rentalRepository;
 
+    @Mock
+    UserRepository userRepository;
+
+
+
     @Test
     public void testGetAllRentals(){
 
 //        Given
-        CopiesOfBooks copie = new CopiesOfBooks();
-
-        User user = new User();
-
         Rental rental = new Rental(
                 1L, LocalDate.of(2020,05,15),
-                LocalDate.of(2020,05,23), copie, user
+                LocalDate.of(2020,05,23), new CopiesOfBooks(), new User()
         );
 
         List<Rental> rentals = new ArrayList<>();
@@ -54,16 +55,12 @@ public class RentalServiceTest {
     }
 
     @Test
-    public void getRental(){
+    public void testGetRental(){
 
 //        Given
-        CopiesOfBooks copie = new CopiesOfBooks();
-
-        User user = new User();
-
         Rental rental = new Rental(
                 1L, LocalDate.of(2020,05,15),
-                LocalDate.of(2020,05,23), copie, user
+                LocalDate.of(2020,05,23), new CopiesOfBooks(), new User()
         );
 
 
@@ -77,16 +74,12 @@ public class RentalServiceTest {
     }
 
     @Test
-    public void saveRental(){
+    public void testSaveRental(){
 
 //        Given
-        CopiesOfBooks copie = new CopiesOfBooks();
-
-        User user = new User();
-
         Rental rental = new Rental(
                 1L, LocalDate.of(2020,05,15),
-                LocalDate.of(2020,05,23), copie, user
+                LocalDate.of(2020,05,23), new CopiesOfBooks(), new User()
         );
 
         when(rentalRepository.save(rental)).thenReturn(rental);
@@ -99,16 +92,12 @@ public class RentalServiceTest {
     }
 
     @Test
-    public void deleteBook(){
+    public void testDeleteBook(){
 
 //        Given
-        CopiesOfBooks copie = new CopiesOfBooks();
-
-        User user = new User();
-
         Rental rental = new Rental(
                 1L, LocalDate.of(2020,05,15),
-                LocalDate.of(2020,05,23), copie, user
+                LocalDate.of(2020,05,23), new CopiesOfBooks(), new User()
         );
 
         Long id = rental.getId();
@@ -120,4 +109,5 @@ public class RentalServiceTest {
 //        Then
         assertFalse(deleteRental.isPresent());
     }
+
 }

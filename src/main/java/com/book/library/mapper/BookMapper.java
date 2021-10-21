@@ -2,18 +2,14 @@ package com.book.library.mapper;
 
 import com.book.library.domain.Book;
 import com.book.library.domain.BookDto;
-import com.book.library.repository.BookRepository;
 import com.book.library.repository.CopiesOfBooksRepository;
 import com.book.library.repository.UserRepository;
-import com.book.library.service.CopiesOfBookService;
-import com.book.library.service.RentalService;
-import com.book.library.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -52,4 +48,9 @@ public class BookMapper {
                 .collect(Collectors.toList());
     }
 
+    public List<BookDto> mapToBookStreamDto(Stream<Book> bookList) {
+        return bookList.sorted()
+                .map(this::mapToBookDto)
+                .collect(Collectors.toList());
+    }
 }

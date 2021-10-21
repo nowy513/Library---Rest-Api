@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class RentalDto {
 
     private Long id;
@@ -17,8 +18,6 @@ public class RentalDto {
     private Long copiesOfBooksId;
     private Long userId;
 
-
-
-    public RentalDto(Long id, LocalDate dateOfLoan, LocalDate dateOfReturn, CopiesOfBooks copiesOfBooks, Long id1) {
+    public RentalDto(long id, LocalDate of, LocalDate of1, CopiesOfBooks copiesOfBooks, User user) {
     }
 }

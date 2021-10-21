@@ -2,11 +2,13 @@ package com.book.library.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class BookDto {
 
     private Long id;
@@ -19,4 +21,5 @@ public class BookDto {
 
     public BookDto(Long id, String title, String author, LocalDate publicationDate, CopiesOfBooks copiesOfBooks, User user) {
     }
+
 }

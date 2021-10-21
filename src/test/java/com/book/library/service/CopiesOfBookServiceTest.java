@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -28,10 +29,8 @@ public class CopiesOfBookServiceTest {
     public void testGetAllCopies(){
 
 //        Given
-        User user = new User();
-
         CopiesOfBooks copie = new CopiesOfBooks(
-                1L, true, 4, user
+                1L, true, 4, new User()
         );
 
         List<CopiesOfBooks> copies = new ArrayList<>();
@@ -45,4 +44,56 @@ public class CopiesOfBookServiceTest {
 //        Then
         assertEquals(1, copieList.size());
     }
+
+    @Test
+    public void getAvailableCopies(){
+
+//        Given
+        CopiesOfBooks copie = new CopiesOfBooks(
+                1L, true, 4, new User()
+        );
+
+        CopiesOfBooks copie2 = new CopiesOfBooks(
+                1L, false, 4, new User()
+        );
+
+        List<CopiesOfBooks> copies = new ArrayList<>();
+        copies.add(copie);
+        copies.add(copie2);
+
+        when(copiesOfBooksRepository.findAll()).thenReturn(copies);
+
+//        When
+        Stream<CopiesOfBooks> copieList = copiesOfBookService.getAvailableCopy();
+
+//        Then
+        assertEquals(1, copieList.count());
+    }
+
+    @Test
+    public void getNotAvailableCopies() {
+
+//        Given
+        CopiesOfBooks copie = new CopiesOfBooks(
+                1L, true, 4, new User()
+        );
+
+        CopiesOfBooks copie2 = new CopiesOfBooks(
+                1L, false, 4, new User()
+        );
+
+        List<CopiesOfBooks> copies = new ArrayList<>();
+        copies.add(copie);
+        copies.add(copie2);
+
+        when(copiesOfBooksRepository.findAll()).thenReturn(copies);
+
+//        When
+        Stream<CopiesOfBooks> copieList = copiesOfBookService.getNotAvailableCopy();
+
+//        Then
+        assertEquals(1, copieList.count());
+
+    }
+
 }

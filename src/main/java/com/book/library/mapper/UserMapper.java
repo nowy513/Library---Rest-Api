@@ -5,11 +5,11 @@ import com.book.library.domain.UserDto;
 import com.book.library.repository.BookRepository;
 import com.book.library.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +45,12 @@ public class UserMapper {
 
     public List<UserDto> mapToUserList(final List<User> users){
         return users.stream()
+                .map(this::mapToUserDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserDto> mapToUserStream(final Stream<User> userStream){
+        return userStream.sorted()
                 .map(this::mapToUserDto)
                 .collect(Collectors.toList());
     }

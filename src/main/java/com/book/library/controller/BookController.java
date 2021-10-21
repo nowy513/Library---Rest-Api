@@ -26,45 +26,33 @@ public class BookController {
 
     private final BookMapper bookMapper;
 
-    private final UserMapper userMapper;
-
-    private final UserService userService;
 
     @GetMapping("/allBooks")
     public List<BookDto> getAllBooks(){
         return bookMapper.mapToBookListDto(bookService.getAllBooks());
     }
 
-    @GetMapping("/{author}")
-    public Stream<BookDto> findBooksByAuthor(@PathVariable String author){
-        return bookMapper.mapToBookListDto(bookService.getAllBooks()).stream()
-                .filter(bookDto -> bookDto.getAuthor().equals(author));
+    @GetMapping("/author/{author}")
+    public List<BookDto> findBooksByAuthor(@PathVariable String author){
+        return bookMapper.mapToBookStreamDto(bookService.getBookByAuthor(author));
     }
 
-    @GetMapping("/{title}")
-    public Stream<BookDto> findBooksByTitle(@PathVariable String title){
-        return bookMapper.mapToBookListDto(bookService.getAllBooks()).stream()
-                .filter(bookDto -> bookDto.getTitle().equals(title));
-    }
-
-    @GetMapping("/{id}")
-    public BookDto findBookById(@PathVariable Long id) throws Exception {
-        return bookMapper.mapToBookDto(bookService.getBookById(id).orElseThrow(Exception::new));
-    }
-
-    @GetMapping("/{publicationDate}")
-    public Stream<BookDto> findBooksByPublicationDate(@PathVariable LocalDate date){
-        return bookMapper.mapToBookListDto(bookService.getAllBooks()).stream()
-                .filter(bookDto -> bookDto.getPublicationDate().equals(date));
+    @GetMapping("/title/{title}")
+    public List<BookDto> findBooksByTitle(@PathVariable String title){
+        return bookMapper.mapToBookStreamDto(bookService.getBookByTitle(title));
     }
 
     @GetMapping("/{bookId}")
-    public Stream<UserDto> findUserBook(@PathVariable Long BookId ){
-        return userMapper.mapToUserList(userService.getAllUsers()).stream()
-                .filter(user -> user.getBookId().equals(BookId));
+    public BookDto findBookById(@PathVariable Long bookId) throws Exception {
+        return bookMapper.mapToBookDto(bookService.getBookById(bookId).orElseThrow(Exception::new));
     }
 
-    @PostMapping("/createBook")
+        @GetMapping("/book/{userId}")
+    public List<BookDto> findUsersBooks(@PathVariable Long userId) {
+        return bookMapper.mapToBookStreamDto(bookService.getAllBooksByUserId(userId));
+    }
+
+    @PostMapping("/book")
     public Book creatBook(@RequestBody BookDto bookDto){
         return bookService.saveBook(bookMapper.mapToBook(bookDto));
     }
@@ -73,5 +61,7 @@ public class BookController {
     public void deleteBookById(@PathVariable Long id){
         bookService.deleteBook(id);
     }
+
+
 
 }
